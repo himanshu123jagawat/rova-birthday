@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Rova ✨</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        scrap: {
+                            cream: '#fdfbf7',
+                            paper: '#f4ede4',
+                            kraft: '#d9c5b2',
+                            text: '#4a3f35',
+                            pink: '#e8b4b8',
+                            sage: '#a4b494',
+                            dark: '#2c241b'
+                        }
+                    },
+                    fontFamily: {
+                        hand: ['Caveat', 'cursive'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'paper': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'polaroid': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles & Textures */
+        :root {
+            color-scheme: light;
+            /* Force light mode for vintage feel */
+        }
+
+        body {
+            background-color: #f4ede4;
+            color: #4a3f35;
+            overflow-x: hidden;
+            /* Subtle paper noise texture */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        /* Hide scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f4ede4;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d9c5b2;
+            border-radius: 4px;
+        }
+
+        /* Utility Classes for Scrapbook Effects */
+        .paper-edge {
+            position: relative;
+        }
+
+        .paper-edge::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: #fffdf8;
+            z-index: -1;
+            transform: rotate(-1deg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 2px;
+        }
+
+        .washi-tape {
+            position: absolute;
+            background-color: rgba(232, 180, 184, 0.6);
+            /* Dusty pink semi-transparent */
+            height: 25px;
+            width: 80px;
+            z-index: 10;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+        }
+
+        .washi-tape.green {
+            background-color: rgba(164, 180, 148, 0.6);
+        }
+
+        .washi-tape.kraft {
+            background-color: rgba(217, 197, 178, 0.8);
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .float-anim {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(2deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fdfbf7;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-out;
+        }
+
+        /* SVG Flower Styles */
+        .svg-flower path {
+            fill: none;
+            stroke: #a4b494;
+            /* Sage green outline */
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Particle Background for final section */
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Postcard Inner Border */
+        .postcard-border {
+            position: absolute;
+            inset: 8px;
+            border: 1px dashed rgba(74, 63, 53, 0.25);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: 2px;
+        }
+
+        /* Custom Audio Player Styling */
+        audio::-webkit-media-controls-panel {
+            background-color: #f4ede4;
+            border-radius: 9999px;
+        }
+
+        audio::-webkit-media-controls-play-button,
+        audio::-webkit-media-controls-mute-button {
+            background-color: rgba(232, 180, 184, 0.4);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased text-scrap-text selection:bg-scrap-pink selection:text-white">
+
+    <div id="preloader">
+        <div class="relative w-24 h-24 mb-4 animate-spin-slow">
+            <!-- Simple SVG Botanical loading icon -->
+            <svg viewBox="0 0 100 100" class="w-full h-full text-scrap-sage animate-pulse">
+                <path d="M50,10 C60,30 80,40 90,50 C80,60 60,70 50,90 C40,70 20,60 10,50 C20,40 40,30 50,10 Z"
+                    fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="50" cy="50" r="5" fill="currentColor" />
+            </svg>
+        </div>
+        <p class="font-hand text-3xl text-scrap-dark tracking-wide">Gathering memories...</p>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <header id="hero" class="relative min-h-[100svh] flex flex-col justify-center items-center p-6 overflow-hidden">
+
+        <!-- Background decorative elements -->
+        <div class="absolute top-10 left-10 md:top-20 md:left-20 opacity-40 float-anim" style="animation-delay: 0s;">
+            <svg width="80" height="80" viewBox="0 0 100 100" class="svg-flower">
+                <path d="M20,80 Q40,60 50,30 Q60,60 80,80 Q50,90 20,80 Z" fill="#e8b4b8" stroke="none" opacity="0.5" />
+                <path d="M50,90 C50,90 45,60 20,40 C20,40 40,50 50,30 C50,30 60,50 80,40 C80,40 55,60 50,90 Z" />
+            </svg>
+        </div>
+        <div class="absolute bottom-20 right-10 md:bottom-32 md:right-32 opacity-50 float-anim"
+            style="animation-delay: 1.5s;">
+            <svg width="100" height="100" viewBox="0 0 100 100" class="svg-flower text-scrap-sage">
+                <path d="M10,90 Q40,70 90,10" />
+                <path d="M30,70 Q50,50 60,30" />
+                <circle cx="90" cy="10" r="3" fill="currentColor" />
+                <circle cx="60" cy="30" r="2" fill="currentColor" />
+            </svg>
+        </div>
+
+        <div class="relative z-10 text-center max-w-3xl mx-auto flex flex-col items-center">
+
+            <!-- Profile Image Area -->
+            <div class="relative w-64 h-64 md:w-80 md:h-80 mb-10 mx-auto">
+                <!-- Floral decorative ring behind image -->
+                <div
+                    class="absolute inset-[-15px] border-[3px] border-dashed border-scrap-sage/40 rounded-full animate-[spin_60s_linear_infinite]">
+                </div>
+                <div
+                    class="absolute inset-[-25px] border-[1px] border-scrap-pink/50 rounded-full animate-[spin_40s_linear_infinite_reverse]">
+                </div>
+
+                <!-- Main Image Container -->
+                <div
+                    class="relative w-full h-full rounded-full p-2 bg-scrap-cream shadow-[0_0_40px_rgba(232,180,184,0.3)] overflow-hidden">
+                    <div class="w-full h-full rounded-full overflow-hidden relative">
+                        <!-- Attempt to load rova.jpeg, fallback to placeholder if not found -->
+                        <img src="rova.jpeg" alt="Rova" class="w-full h-full object-cover rounded-full"
+                            onerror="this.onerror=null; this.src='https://placehold.co/600x600/e8dcca/4a3f35?text=Rova&font=playfair-display'; this.classList.add('opacity-80')">
+                    </div>
+                </div>
+
+                <!-- Foreground decorative leaf -->
+                <div class="absolute -bottom-6 -right-6 z-20 transform rotate-12">
+                    <svg width="60" height="60" viewBox="0 0 100 100" class="svg-flower">
+                        <path d="M10,90 Q50,90 90,10 Q90,50 10,90 Z" fill="#a4b494" opacity="0.8" stroke="none" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <h1 class="font-hand text-6xl md:text-8xl text-scrap-dark mb-6 drop-shadow-sm transform -rotate-2">
+                Happy Birthday, Rova <span class="text-scrap-pink">✨</span>
+            </h1>
+
+            <div class="relative paper-edge bg-scrap-cream p-6 md:p-8 rounded-sm max-w-2xl mx-auto mb-12">
+                <div class="washi-tape top-[-10px] left-1/2 transform -translate-x-1/2 rotate-1"></div>
+                <p class="font-serif text-xl md:text-2xl text-scrap-text/90 italic leading-relaxed text-center">
+                    "A little scrapbook filled with memories, love, laughter, and wishes from the people lucky enough to
+                    know you."
+                </p>
+            </div>
+
+            <!-- CTA Button -->
+            <button id="open-btn"
+                class="group relative inline-flex items-center justify-center px-8 py-4 font-serif text-xl font-medium tracking-wider text-scrap-dark transition-all duration-300 bg-scrap-cream border border-scrap-kraft rounded-md shadow-paper hover:shadow-md hover:-translate-y-1 overflow-hidden">
+                <span
+                    class="absolute inset-0 w-full h-full bg-gradient-to-br from-transparent via-scrap-pink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                <span class="mr-2">💌</span> Open The Scrapbook
+            </button>
+        </div>
+    </header>
+
+    <section id="messages" class="relative py-24 px-6 md:px-12 lg:px-24 bg-[#fdfbf7]">
+        <!-- Torn paper top edge divider -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden line-height-0 transform rotate-180">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none"
+                class="w-full h-[30px] fill-current text-scrap-paper">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-20 fade-in-up">
+                <h2 class="font-hand text-5xl md:text-6xl text-scrap-dark mb-4">Messages From Your People 💌</h2>
+                <p class="font-serif text-xl text-scrap-text/70 italic">"Words collected from hearts that care about
+                    you."</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
+
+                <!-- Message 1: Zen -->
+                <article
+                    class="fade-in-up bg-[#fdf2f4] p-8 rounded-sm shadow-paper relative transform rotate-1 hover:rotate-0 transition-transform duration-500 paper-edge">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape top-[-10px] left-[20px] -rotate-3"></div>
+
+                    <!-- Top Left Purple/Yellow Wildflowers -->
+                    <svg class="absolute -top-12 -left-12 w-28 h-28 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M40,50 Q20,30 10,50 Q20,70 40,50" fill="#8A9A73" opacity="0.8" />
+                        <path d="M50,40 Q30,20 50,10 Q70,20 50,40" fill="#8A9A73" opacity="0.9" />
+                        <path d="M35,35 C25,15 55,15 45,35 C65,25 65,55 45,45 C55,65 25,65 35,45 C15,55 15,25 35,35 Z"
+                            fill="#C5A3C7" opacity="0.95" />
+                        <circle cx="40" cy="40" r="4" fill="#F4D068" />
+                        <path d="M65,65 C55,45 85,45 75,65 C95,55 95,85 75,75 C85,95 55,95 65,75 C45,85 45,55 65,65 Z"
+                            fill="#EBD671" opacity="0.95" />
+                        <circle cx="70" cy="70" r="4" fill="#8A9A73" />
+                    </svg>
+
+                    <!-- Bottom Right Pink Peony -->
+                    <svg class="absolute -bottom-10 -right-10 w-36 h-36 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M60,40 Q80,10 90,30 Q70,60 60,40" fill="#788A63" opacity="0.9" />
+                        <path d="M40,60 Q10,80 30,90 Q60,70 40,60" fill="#788A63" opacity="0.8" />
+                        <path d="M50,50 C20,20 80,20 70,50 C90,80 30,90 50,70 C10,60 20,20 50,50 Z" fill="#F0B5B9"
+                            opacity="0.95" />
+                        <path d="M55,55 C35,35 75,35 65,55 C75,75 35,75 55,65 C25,65 35,35 55,55 Z" fill="#D97A84"
+                            opacity="0.95" />
+                        <circle cx="52" cy="52" r="4" fill="#F4D068" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3
+                            class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-scrap-pink/40 pb-2 pt-4 pl-4">
+                            Zen</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>Happy birthday to Rova Diii! 💗</p>
+                            <p>Even though we don’t talk 24/7 or catch up every single day, the connection we share
+                                means so much to me. You’re honestly a great sister to me—not by blood, but strictly by
+                                heart and the amazing bond we've built.</p>
+                            <p>It’s pretty rare to find a genuine connection like this, and I’m so incredibly grateful
+                                to have you in my life.</p>
+                            <p>I truly hope this year brings you all the happiness, success, and peace you deserve,
+                                because you deserve the absolute best.</p>
+                            <p>Have the most amazing day, Diii—enjoy every single second of it! I hope one day we'll
+                                meet along with our GC members.</p>
+                            <p class="font-hand text-xl mt-4 font-bold text-scrap-pink">Once again HAPPY WALA BIRTHDAY
+                                ROVU DIIIIII 💗</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Message 2: Sadiya -->
+                <article
+                    class="fade-in-up bg-[#fdfbf2] p-8 rounded-sm shadow-paper relative transform -rotate-1 hover:rotate-0 transition-transform duration-500 paper-edge md:mt-12">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape green top-[-12px] right-[30px] rotate-2"></div>
+                    <!-- Pinned effect -->
+                    <div
+                        class="absolute top-4 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-scrap-dark rounded-full shadow-[0_2px_4px_rgba(0,0,0,0.4)] z-20">
+                        <div class="absolute top-[2px] left-[2px] w-1 h-1 bg-white rounded-full opacity-50"></div>
+                    </div>
+
+                    <!-- Top Right Blue Forget-me-nots -->
+                    <svg class="absolute -top-8 -right-8 w-32 h-32 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M40,50 Q20,30 30,10 Q50,30 40,50" fill="#9FB490" opacity="0.8" />
+                        <path d="M60,40 C50,25 75,25 70,40 C85,35 85,55 70,50 C75,65 50,65 60,50 C45,55 45,35 60,40 Z"
+                            fill="#9FBAD3" opacity="0.95" />
+                        <circle cx="65" cy="45" r="4" fill="#FFF" />
+                        <path d="M35,65 C25,50 50,50 45,65 C60,60 60,80 45,75 C50,90 25,90 35,75 C20,80 20,60 35,65 Z"
+                            fill="#9FBAD3" opacity="0.95" />
+                        <circle cx="40" cy="70" r="4" fill="#FFF" />
+                    </svg>
+
+                    <!-- Bottom Left Leafy Branch -->
+                    <svg class="absolute -bottom-6 -left-6 w-28 h-28 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M90,10 Q50,50 10,90" stroke="#788A63" stroke-width="2" fill="none" />
+                        <path d="M30,70 C10,60 20,40 30,70 Z" fill="#8A9A73" opacity="0.9" />
+                        <path d="M50,50 C30,40 40,20 50,50 Z" fill="#8A9A73" opacity="0.9" />
+                        <path d="M70,30 C50,20 60,0 70,30 Z" fill="#8A9A73" opacity="0.9" />
+                        <circle cx="20" cy="80" r="3" fill="#EFA2A9" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3
+                            class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-[#d4d1b8] pb-2 pt-4">
+                            Sadiya</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>Happieee birthday Rova 🎀</p>
+                            <p>I wish you lots of peace, happiness, good health, and beautiful moments this year.</p>
+                            <p>You are so talented, so kind, so pretty inside and out, smart, strong, and absolutely a
+                                baddie. Never let anyone make you doubt your worth. You are enough exactly as you are.
+                            </p>
+                            <p>I hope you always choose the things that bring genuine joy into your life.</p>
+                            <p>Stay healthy, stay happy, and live life to the fullest. Love you so much.</p>
+                            <p class="font-hand text-xl mt-4 font-bold text-scrap-pink">HAPPY BIRTHDAY LOVEEEEE 🎀</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Message 3: Ayush -->
+                <article
+                    class="fade-in-up bg-[#f1f6f3] p-8 rounded-sm shadow-paper relative transform rotate-2 hover:rotate-0 transition-transform duration-500 paper-edge">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape kraft top-[20px] left-[-20px] -rotate-45 w-16"></div>
+
+                    <!-- Bottom Right Orange/Peach Blooms -->
+                    <svg class="absolute -bottom-8 -right-8 w-32 h-32 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M50,50 Q70,70 90,50 Q70,30 50,50" fill="#8A9A73" opacity="0.8" />
+                        <path d="M45,45 C25,20 65,10 60,40 C85,25 90,65 60,60 C65,90 25,80 45,60 C15,65 10,25 45,45 Z"
+                            fill="#F2AB86" opacity="0.95" />
+                        <path d="M50,50 C35,35 65,30 60,50 C75,40 75,70 60,65 C65,80 35,75 50,65 C25,70 25,40 50,50 Z"
+                            fill="#E88B60" opacity="0.95" />
+                        <circle cx="53" cy="53" r="5" fill="#5A4634" />
+                    </svg>
+
+                    <!-- Top Right tiny buds -->
+                    <svg class="absolute -top-4 -right-4 w-16 h-16 z-20 pointer-events-none" viewBox="0 0 100 100">
+                        <circle cx="30" cy="70" r="6" fill="#F2AB86" opacity="0.8" />
+                        <circle cx="50" cy="50" r="4" fill="#E88B60" opacity="0.9" />
+                        <circle cx="70" cy="30" r="5" fill="#F2AB86" opacity="0.7" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3 class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-[#aebfba] pb-2">
+                            Ayush</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>Happy Birthday, Didi Rova! ❤️</p>
+                            <p>Thank you for being such an important part of my life. Your kindness, support, and care
+                                mean more to me than words can express.</p>
+                            <p>You have always been someone I can learn from and look up to.</p>
+                            <p>May this year bring happiness, success, good health, and endless love into your life. May
+                                your smile never fade and may all your dreams come true.</p>
+                            <p>Thank you for being such an amazing sister. Wishing you a year full of beautiful
+                                memories.</p>
+                            <p class="font-hand text-xl mt-4 font-bold text-red-700/80">Happy Birthday, Didi! ❤️</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Message 4: Moona -->
+                <article
+                    class="fade-in-up bg-[#f4f3f8] p-8 rounded-sm shadow-paper relative transform -rotate-2 hover:rotate-0 transition-transform duration-500 paper-edge md:ml-12">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape top-[-10px] left-1/2 transform -translate-x-1/2 -rotate-1"></div>
+
+                    <!-- Top Left Lavender Bouquet -->
+                    <svg class="absolute -top-10 -left-10 w-36 h-36 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M50,90 Q50,50 90,10" stroke="#8A9A73" stroke-width="2" fill="none" />
+                        <path d="M40,60 C20,50 30,30 50,50 Z" fill="#8A9A73" opacity="0.8" />
+                        <!-- Lavender flowers -->
+                        <circle cx="60" cy="40" r="6" fill="#B593B6" opacity="0.9" />
+                        <circle cx="70" cy="30" r="5" fill="#C5A3C7" opacity="0.9" />
+                        <circle cx="80" cy="20" r="4" fill="#B593B6" opacity="0.9" />
+                        <circle cx="50" cy="30" r="5" fill="#C5A3C7" opacity="0.9" />
+                        <circle cx="60" cy="20" r="4" fill="#B593B6" opacity="0.9" />
+                    </svg>
+
+                    <!-- Bottom Right mixed buds -->
+                    <svg class="absolute -bottom-6 -right-6 w-24 h-24 z-20 pointer-events-none drop-shadow-sm"
+                        viewBox="0 0 100 100">
+                        <path d="M20,80 Q50,50 80,20" stroke="#8A9A73" stroke-width="1.5" fill="none" />
+                        <circle cx="70" cy="30" r="8" fill="#F0B5B9" opacity="0.9" />
+                        <circle cx="40" cy="60" r="6" fill="#EBD671" opacity="0.9" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3 class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-[#c8c5d1] pb-2">
+                            Moona</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>Happiest Birthday Rovaaaaa 🖤</p>
+                            <p>Happy Birthday to my dearest soulmate in friendship.</p>
+                            <p>Even though miles separate us, our bond remains untouched by distance and time. You are
+                                my safe place, my laughter on difficult days, and my partner in all things crazy and
+                                beautiful.</p>
+                            <p>I wish you endless joy, beautiful memories, genuine love, and dreams that unfold exactly
+                                the way you want. You deserve the very best life has to offer.</p>
+                            <p>No matter where we are, our bond will never fade. I love you and miss you so much.</p>
+                            <p class="font-hand text-xl mt-4 font-bold text-gray-800">Happy Birthday, my forever friend.
+                                🖤</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Voice Note: Payal (Center of the grid) -->
+                <article
+                    class="fade-in-up bg-[#fcf8ed] p-8 rounded-sm shadow-paper relative transform rotate-1 hover:rotate-0 transition-transform duration-500 paper-edge flex flex-col items-center justify-center text-center">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape top-[-10px] left-1/2 transform -translate-x-1/2 rotate-2"></div>
+
+                    <!-- Decorative Vine & Record -->
+                    <svg class="absolute -top-4 -left-4 w-20 h-20 z-20 pointer-events-none drop-shadow-sm"
+                        viewBox="0 0 100 100">
+                        <path d="M10,90 Q50,50 90,10" stroke="#8A9A73" stroke-width="2" fill="none" />
+                        <circle cx="30" cy="70" r="4" fill="#EFA2A9" opacity="0.9" />
+                        <circle cx="70" cy="30" r="5" fill="#EBD671" opacity="0.9" />
+                    </svg>
+
+                    <div class="relative z-10 w-full mt-4">
+                        <div
+                            class="w-20 h-20 mx-auto mb-4 rounded-full bg-scrap-cream border border-scrap-kraft flex items-center justify-center shadow-inner relative overflow-hidden group">
+                            <!-- Vintage record grooves simulation -->
+                            <div class="absolute inset-2 rounded-full border border-scrap-dark/10"></div>
+                            <div
+                                class="absolute inset-4 rounded-full border border-scrap-dark/10 group-hover:animate-[spin_4s_linear_infinite]">
+                            </div>
+                            <span
+                                class="text-3xl relative z-10 drop-shadow-md group-hover:scale-110 transition-transform">🎵</span>
+                        </div>
+                        <h3 class="font-hand text-3xl font-bold text-scrap-dark mb-1">A Little Note</h3>
+                        <p class="font-serif text-lg text-scrap-text/70 italic mb-6">From Payal 🎀</p>
+
+                        <div
+                            class="bg-scrap-cream/60 p-2 rounded-full shadow-inner border border-scrap-kraft/30 w-full">
+                            <audio controls class="w-full h-10 outline-none">
+                                <source src="payal.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Message 5: Hims -->
+                <article
+                    class="fade-in-up bg-[#fdf4ee] p-8 rounded-sm shadow-paper relative transform rotate-1 hover:rotate-0 transition-transform duration-500 paper-edge md:mt-8">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape green bottom-[20px] right-[-20px] -rotate-45 w-16"></div>
+
+                    <!-- Top Right Deep Rose -->
+                    <svg class="absolute -top-8 -right-8 w-32 h-32 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M40,60 Q20,30 30,10 Q50,30 40,60" fill="#788A63" opacity="0.9" />
+                        <!-- Red/Pink Rose -->
+                        <path d="M60,60 C30,30 90,20 80,60 C100,90 40,100 60,80 C20,70 30,30 60,60 Z" fill="#EFA2A9"
+                            opacity="0.95" />
+                        <path d="M65,65 C45,45 85,45 75,65 C85,85 45,85 65,75 C35,75 45,45 65,65 Z" fill="#C45A67"
+                            opacity="0.95" />
+                    </svg>
+
+                    <!-- Bottom Left Peach Florals -->
+                    <svg class="absolute -bottom-8 -left-8 w-32 h-32 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M60,50 Q80,70 90,90 Q70,90 60,50" fill="#8A9A73" opacity="0.8" />
+                        <path d="M35,35 C15,10 55,0 50,30 C75,15 80,55 50,50 C55,80 15,70 35,50 C5,55 0,15 35,35 Z"
+                            fill="#F2AB86" opacity="0.95" />
+                        <circle cx="43" cy="43" r="5" fill="#D97A84" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3 class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-[#e6ccbc] pb-2">
+                            Hims</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>🌹✨</p>
+                            <p>Happy Birthday, Dost!</p>
+                            <p>Today is all about celebrating the amazing person you are. Thank you for being such a
+                                wonderful friend, for the laughter, the memories, and all the little moments that make
+                                our friendship special.</p>
+                            <p>You have a way of making people feel valued, understood, and comfortable around you.
+                                Never lose that beautiful spark that makes you unique.</p>
+                            <p>May this year bring new adventures, countless smiles, unforgettable memories, and all the
+                                happiness your heart can hold.</p>
+                            <p>Keep shining and keep being the incredible person we all know and love.</p>
+                            <p class="font-hand text-xl mt-4 font-bold text-[#c45a67]">Happy Birthday, Rova! 💖🎂✨</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Message 6: Samayra -->
+                <article
+                    class="fade-in-up bg-[#f6f4f8] p-8 rounded-sm shadow-paper relative transform -rotate-1 hover:rotate-0 transition-transform duration-500 paper-edge">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape kraft bottom-[10px] right-[-20px] -rotate-45 w-16"></div>
+
+                    <!-- Top Right Lilac Flowers -->
+                    <svg class="absolute -top-6 -right-6 w-32 h-32 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M50,50 Q70,20 90,30 Q70,60 50,50" fill="#a4b494" opacity="0.8" />
+                        <circle cx="65" cy="40" r="8" fill="#d1cdd8" opacity="0.9" />
+                        <circle cx="75" cy="30" r="6" fill="#e8b4b8" opacity="0.9" />
+                        <circle cx="85" cy="45" r="5" fill="#d1cdd8" opacity="0.9" />
+                    </svg>
+
+                    <!-- Bottom Left Botanical -->
+                    <svg class="absolute -bottom-6 -left-6 w-28 h-28 z-20 pointer-events-none drop-shadow-sm"
+                        viewBox="0 0 100 100">
+                        <path d="M90,10 C50,50 30,70 10,90" stroke="#8A9A73" stroke-width="2" fill="none" />
+                        <path d="M30,70 C10,60 20,40 30,70 Z" fill="#8A9A73" opacity="0.7" />
+                        <path d="M50,50 C30,40 40,20 50,50 Z" fill="#8A9A73" opacity="0.7" />
+                        <circle cx="25" cy="75" r="4" fill="#C5A3C7" opacity="0.8" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3 class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-[#d1cdd8] pb-2">
+                            Samayra</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>Many Many Happy Returns Of The Day, Rova! 🎂🎀🤍</p>
+                            <p>Happy Happiest Birthday to you ✨</p>
+                            <p>Chahe kisi ko help chahiye ho, support chahiye ho ya bas kisi ko sunne wala chahiye ho,
+                                tu hamesha apna best dene ki koshish karti hai 💖</p>
+                            <p>Main dil se wish karti hu ki tu hamesha strong rahe, life mein bohot aage badhe aur jo
+                                bhi goals aur dreams tune apne liye dekhe hain woh sab poore ho 🌷</p>
+                            <p>Tujhe har woh khushi mile jo tu deserve karti hai, bohot saara pyaar mile, success mile
+                                aur teri life hamesha khushiyon aur achhi memories se bhari rahe ✨🤍</p>
+                            <p>Thank you for being such a wonderful person and for everything you do for the people
+                                around you 🫂</p>
+                            <p>Apna special day achhe se enjoy kar aur bohot saari memories bana 🎉🎀<br><span
+                                    class="text-sm opacity-60 font-sans mt-1 inline-block">@cozyshields</span></p>
+                            <p class="font-hand text-xl mt-4 font-bold text-[#b8a6c4]">— Samayra 🤍</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Message 7: Rudy -->
+                <article
+                    class="fade-in-up bg-[#fdf5ed] p-8 rounded-sm shadow-paper relative transform rotate-1 hover:rotate-0 transition-transform duration-500 paper-edge">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape top-[-10px] right-[20px] rotate-3"></div>
+
+                    <!-- Top Left Sunny Yellow accents -->
+                    <svg class="absolute -top-8 -left-8 w-32 h-32 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M40,50 Q20,30 10,50 Q20,70 40,50" fill="#8A9A73" opacity="0.8" />
+                        <path d="M50,40 Q30,20 50,10 Q70,20 50,40" fill="#8A9A73" opacity="0.9" />
+                        <circle cx="45" cy="45" r="12" fill="#f4d068" opacity="0.95" />
+                        <circle cx="45" cy="45" r="4" fill="#d97a84" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3 class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-[#e6ccbc] pb-2">
+                            Rudy</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>Happiest b'day meri 80% oops 😬*85% behna...💗👈🏼</p>
+                            <p>I wish tera ye saal bhot achha jaye as compare to all previous years... Orr ye hi kyu
+                                aage se sare birthday ab tu hamesha khush rhe😋</p>
+                            <p>Mst teri psand ka pati mile tujhe 😍🤣</p>
+                            <p>1saal or badi hogyi tu mujhhseee💔😔 Khair...</p>
+                            <p>Baki tu hamesha khush rah yrr kabhi udaas mat hona 💗</p>
+                            <p>Hamesha atteched rah 🫂🙂‍↔️<br>Yuhi bolti raha kr cute lagti h 🥀 🤣</p>
+                            <p>Again happiest b'day rovduuuu😋(lodu mat bolna )👺👈🏼</p>
+                            <p class="font-hand text-xl mt-4 font-bold text-[#d97a84]">Chhota hu to kya huaa mera
+                                ashirwad hai tere pe 🤚🏼 tathastu 🥰</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Message 8: Aryan -->
+                <article
+                    class="fade-in-up bg-[#f0f4f8] p-8 rounded-sm shadow-paper relative transform -rotate-1 hover:rotate-0 transition-transform duration-500 paper-edge md:mt-6">
+                    <div class="postcard-border"></div>
+                    <div class="washi-tape kraft bottom-[20px] right-[-20px] -rotate-45 w-16"></div>
+
+                    <!-- Bottom Right Mint/Blue Florals -->
+                    <svg class="absolute -bottom-8 -right-8 w-32 h-32 z-20 pointer-events-none drop-shadow-md"
+                        viewBox="0 0 100 100">
+                        <path d="M50,50 Q70,70 90,50 Q70,30 50,50" fill="#9FB490" opacity="0.8" />
+                        <path d="M45,45 C25,20 65,10 60,40 C85,25 90,65 60,60 C65,90 25,80 45,60 C15,65 10,25 45,45 Z"
+                            fill="#9FBAD3" opacity="0.95" />
+                        <circle cx="53" cy="53" r="4" fill="#FFF" />
+                    </svg>
+
+                    <div class="relative z-10">
+                        <h3
+                            class="font-hand text-3xl font-bold text-scrap-dark mb-4 border-b border-[#b5c7d3] pb-2 pt-2">
+                            Aryan</h3>
+                        <div class="font-serif text-lg leading-relaxed space-y-3 text-scrap-text/90">
+                            <p>You are one of those people whom I consider both my friend and my sister. Even though we
+                                met online, I have always thought of you as my real sister.</p>
+                            <p>Thank you for always being there for me, and for guiding and motivating me.</p>
+                            <p>Your brother will always be by your side, no matter what the situation is.</p>
+                            <p>I just want your life to be beautiful, and I hope you get everything you wish for. ✨</p>
+                            <p class="font-hand text-xl mt-4 font-bold text-[#7a9eb8]">Happy Birthday, Rova! Enjoy your
+                                day!!! 🫂🫶🏻🎀</p>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="friendship-wall" class="relative py-24 bg-scrap-paper overflow-hidden">
+        <!-- Botanical background scatter -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none">
+            <div class="absolute top-[10%] left-[5%] transform rotate-45"><svg width="40" height="40"
+                    class="svg-flower">
+                    <path d="M10,30 Q20,10 30,30 Q20,50 10,30 Z" fill="#a4b494" />
+                </svg></div>
+            <div class="absolute bottom-[20%] right-[10%] transform -rotate-12"><svg width="50" height="50"
+                    class="svg-flower">
+                    <path d="M10,40 Q25,20 40,40 Q25,60 10,40 Z" fill="#e8b4b8" />
+                </svg></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <h2 class="font-hand text-5xl md:text-6xl text-center text-scrap-dark mb-16 fade-in-up">Friendship Wall 📸
+            </h2>
+
+            <div
+                class="relative min-h-[800px] md:min-h-[600px] w-full flex flex-wrap justify-center items-center gap-8 md:gap-0">
+
+                <!-- Quote 1 -->
+                <div
+                    class="fade-in-up md:absolute md:top-10 md:left-10 w-64 bg-scrap-cream p-5 shadow-paper transform -rotate-3 z-10 paper-edge">
+                    <div class="washi-tape kraft top-[-10px] left-1/2 transform -translate-x-1/2"></div>
+                    <p class="font-hand text-2xl text-scrap-dark text-center leading-snug mt-2">"Some people become
+                        stories. Some become home."</p>
+                </div>
+
+                <!-- Polaroid 1 -->
+                <div
+                    class="fade-in-up md:absolute md:top-20 md:left-[30%] w-56 bg-white p-4 pb-12 shadow-polaroid transform rotate-6 z-20 transition-transform hover:scale-105 hover:z-30 cursor-pointer">
+                    <div class="washi-tape green top-[-15px] right-[-15px] rotate-45"></div>
+                    <div class="w-full aspect-square border border-scrap-kraft/20 overflow-hidden">
+                        <img src="gc.jpg" alt="Beautiful Times" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-hand text-xl text-center mt-4 text-scrap-text/80">Beautiful Times</p>
+                </div>
+
+                <!-- Quote 2 -->
+                <div
+                    class="fade-in-up md:absolute md:top-[40%] md:right-10 w-72 bg-scrap-cream p-6 shadow-paper transform rotate-2 z-10 paper-edge">
+                    <div
+                        class="absolute top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-scrap-pink/40">
+                    </div>
+                    <p class="font-serif text-xl italic text-scrap-text/90 text-center mt-2 leading-relaxed">"Distance
+                        means so little when someone means so much."</p>
+                </div>
+
+                <!-- Polaroid 2 -->
+                <div
+                    class="fade-in-up md:absolute md:bottom-20 md:left-[15%] w-60 bg-white p-4 pb-14 shadow-polaroid transform -rotate-6 z-20 transition-transform hover:scale-105 hover:z-30 cursor-pointer">
+                    <div class="w-full aspect-square border border-scrap-kraft/20 overflow-hidden">
+                        <img src="homies.png" alt="Memories" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-hand text-xl text-center mt-5 text-scrap-text/80">Us 🤍</p>
+                </div>
+
+                <!-- Central/Bottom Quote -->
+                <div
+                    class="fade-in-up md:absolute md:bottom-10 md:right-[30%] w-80 bg-[#fffdfa] p-8 shadow-paper transform rotate-1 z-10 paper-edge border border-scrap-kraft/10">
+                    <div class="washi-tape top-[-10px] left-10 -rotate-2"></div>
+                    <div class="washi-tape bottom-[-10px] right-10 rotate-2"></div>
+                    <p class="font-hand text-3xl text-scrap-dark text-center leading-tight">"Friendship turns ordinary
+                        moments into lifelong memories."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="wishes-sky"
+        class="relative h-[60vh] bg-gradient-to-t from-scrap-paper to-[#fdfbf7] overflow-hidden flex flex-col items-center justify-center">
+        <div class="text-center z-20 pointer-events-none mb-10 fade-in-up">
+            <h2 class="font-serif text-3xl md:text-4xl text-scrap-dark/80 italic">Sending up wishes...</h2>
+        </div>
+
+        <!-- Container for JS animated floating words -->
+        <div id="sky-container" class="absolute inset-0 z-10 overflow-hidden">
+            <!-- Words will be injected here by JS -->
+        </div>
+
+        <!-- Bottom overlay gradient for smooth transition -->
+        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#e6dccf] to-transparent z-20"></div>
+    </section>
+
+    <section id="final-section"
+        class="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 overflow-hidden bg-[#e6dccf]">
+
+        <!-- Canvas for warm glowing particles -->
+        <canvas id="particles-canvas"></canvas>
+
+        <!-- Deep vintage texture overlay -->
+        <div
+            class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%220.1%22/%3E%3C/svg%3E')] mix-blend-multiply opacity-50 pointer-events-none">
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto space-y-8 fade-in-up">
+
+            <div
+                class="font-serif text-3xl md:text-5xl lg:text-6xl text-scrap-dark font-medium leading-tight space-y-4">
+                <p>To More Smiles.</p>
+                <p>To More Adventures.</p>
+                <p>To More Memories.</p>
+                <p>To More Beautiful Chapters.</p>
+            </div>
+
+            <h2 class="font-hand text-6xl md:text-8xl text-scrap-dark mt-12 mb-8 drop-shadow-md">
+                Happy Birthday, Rova. <span class="text-red-500/80">❤️</span>
+            </h2>
+
+            <p class="font-serif text-xl md:text-2xl text-scrap-text/80 italic mb-16">
+                "Thank you for being a part of so many beautiful memories."
+            </p>
+
+            <div
+                class="mt-20 inline-block text-left bg-scrap-cream/80 backdrop-blur-sm p-8 rounded-sm shadow-lg border border-scrap-kraft/30 transform rotate-1 paper-edge">
+                <p class="font-serif text-lg text-scrap-text/80 mb-4 border-b border-scrap-kraft/30 pb-2">Signed,</p>
+                <p class="font-hand text-3xl text-scrap-dark leading-relaxed">
+                    With Love,<br>
+                    Zen ❤️<br>
+                    Sadiya 🎀<br>
+                    Ayush ❤️<br>
+                    Moona 🖤<br>
+                    Payal 🎵<br>
+                    Hims 🌹<br>
+                    Samayra 🤍<br>
+                    Rudy 🌸<br>
+                    Aryan ✨
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // --- Preloader Logic ---
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        // Trigger initial reveal
+                        reveal();
+                    }, 1000);
+                }, 500); // Small delay to let fonts load properly
+            });
+
+            // --- Scroll Reveal Animation ---
+            const reveals = document.querySelectorAll(".fade-in-up");
+
+            function reveal() {
+                for (let i = 0; i < reveals.length; i++) {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = reveals[i].getBoundingClientRect().top;
+                    const elementVisible = 100;
+
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveals[i].classList.add("visible");
+                    }
+                }
+            }
+            window.addEventListener("scroll", reveal);
+
+            // --- Interactive Button: Paper Open & Confetti ---
+            const openBtn = document.getElementById('open-btn');
+
+            openBtn.addEventListener('click', () => {
+                // 1. Play Confetti
+                fireConfetti();
+
+                // 2. Smooth Scroll to Messages
+                setTimeout(() => {
+                    const messagesSection = document.getElementById('messages');
+                    messagesSection.scrollIntoView({ behavior: 'smooth' });
+                }, 800);
+            });
+
+            // --- Custom Lightweight Confetti Function ---
+            function fireConfetti() {
+                const canvas = document.getElementById('confetti-canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                const pieces = [];
+                const colors = ['#e8b4b8', '#a4b494', '#d9c5b2', '#fdfbf7'];
+
+                for (let i = 0; i < 100; i++) {
+                    pieces.push({
+                        x: canvas.width / 2,
+                        y: canvas.height / 2 + 100, // Start slightly below center
+                        vx: (Math.random() - 0.5) * 20,
+                        vy: (Math.random() - 1) * 20 - 5,
+                        size: Math.random() * 10 + 5,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        rotation: Math.random() * 360,
+                        rotationSpeed: (Math.random() - 0.5) * 10
+                    });
+                }
+
+                function animateConfetti() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    let active = false;
+
+                    pieces.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.5; // Gravity
+                        p.rotation += p.rotationSpeed;
+
+                        if (p.y < canvas.height) active = true;
+
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(p.rotation * Math.PI / 180);
+                        ctx.fillStyle = p.color;
+                        ctx.globalAlpha = p.y > canvas.height - 100 ? (canvas.height - p.y) / 100 : 1;
+                        // Draw torn paper shape
+                        ctx.beginPath();
+                        ctx.moveTo(-p.size / 2, -p.size / 2);
+                        ctx.lineTo(p.size / 2, -p.size / 2 + Math.random() * 2);
+                        ctx.lineTo(p.size / 2 - Math.random() * 2, p.size / 2);
+                        ctx.lineTo(-p.size / 2, p.size / 2);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.restore();
+                    });
+
+                    if (active) {
+                        requestAnimationFrame(animateConfetti);
+                    } else {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clean up
+                    }
+                }
+                animateConfetti();
+            }
+
+            // --- Wishes Sky Logic ---
+            const words = ["Love", "Happiness", "Peace", "Success", "Memories", "Adventures", "Smiles", "Dreams"];
+            const skyContainer = document.getElementById('sky-container');
+
+            function createWish() {
+                const wish = document.createElement('div');
+                const word = words[Math.floor(Math.random() * words.length)];
+
+                wish.innerText = word;
+                wish.className = 'absolute font-hand text-2xl md:text-4xl text-scrap-dark/60 opacity-0';
+
+                // Random starting position (bottom) and horizontal placement
+                wish.style.left = Math.random() * 90 + 5 + '%';
+                wish.style.bottom = '-50px';
+
+                // Random font size variation
+                const scale = Math.random() * 0.5 + 0.8;
+                wish.style.transform = `scale(${scale}) rotate(${(Math.random() - 0.5) * 20}deg)`;
+
+                skyContainer.appendChild(wish);
+
+                // Animate
+                const duration = Math.random() * 5000 + 5000; // 5-10 seconds
+                const anim = wish.animate([
+                    { transform: `translateY(0) scale(${scale}) rotate(${(Math.random() - 0.5) * 20}deg)`, opacity: 0 },
+                    { opacity: 0.8, offset: 0.2 },
+                    { opacity: 0.8, offset: 0.8 },
+                    { transform: `translateY(-${window.innerHeight}px) scale(${scale}) rotate(${(Math.random() - 0.5) * 40}deg)`, opacity: 0 }
+                ], {
+                    duration: duration,
+                    easing: 'linear'
+                });
+
+                anim.onfinish = () => wish.remove();
+            }
+
+            // Create wishes continuously if section is somewhat visible
+            let wishInterval;
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    wishInterval = setInterval(createWish, 800);
+                } else {
+                    clearInterval(wishInterval);
+                }
+            }, { threshold: 0.1 });
+
+            observer.observe(document.getElementById('wishes-sky'));
+
+
+            // --- Final Section Warm Particles (Canvas) ---
+            const pCanvas = document.getElementById('particles-canvas');
+            const pCtx = pCanvas.getContext('2d');
+
+            function resizePCanvas() {
+                pCanvas.width = document.getElementById('final-section').offsetWidth;
+                pCanvas.height = document.getElementById('final-section').offsetHeight;
+            }
+            window.addEventListener('resize', resizePCanvas);
+            resizePCanvas();
+
+            const particles = [];
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: Math.random() * pCanvas.width,
+                    y: Math.random() * pCanvas.height,
+                    r: Math.random() * 3 + 1,
+                    dx: (Math.random() - 0.5) * 0.5,
+                    dy: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+
+            function drawParticles() {
+                pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+                pCtx.fillStyle = 'rgba(255, 230, 200, 0.6)'; // Warm glow color
+
+                particles.forEach(p => {
+                    pCtx.beginPath();
+                    pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    pCtx.fillStyle = `rgba(255, 220, 180, ${p.opacity})`;
+                    pCtx.fill();
+
+                    // Move
+                    p.x += p.dx;
+                    p.y += p.dy;
+
+                    // Bounce/wrap
+                    if (p.x < 0 || p.x > pCanvas.width) p.dx *= -1;
+                    if (p.y < 0 || p.y > pCanvas.height) p.dy *= -1;
+
+                    // Twinkle
+                    if (Math.random() < 0.01) p.opacity = Math.random() * 0.5 + 0.2;
+                });
+
+                requestAnimationFrame(drawParticles);
+            }
+
+            // Only animate if final section is visible to save resources
+            const finalObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    drawParticles();
+                }
+            }, { threshold: 0 });
+            finalObserver.observe(document.getElementById('final-section'));
+
+        });
+    </script>
+</body>
+
+</html>
